@@ -20,7 +20,6 @@ int DHKE::sodium_loading() {
 using https://codereview.stackexchange.com/a/84058
 modified to generate a new number and call itself again if the return is false
 */
-
 long long int DHKE::isPrime(long long int num) {
 	if (num <= 3) {
 		return num > 1;
@@ -45,6 +44,24 @@ long long int DHKE::isPrime(long long int num) {
 long long int DHKE::generate() {
 	long long int number = randombytes_random();
 	int randombytes_close(void);
-	number = DHKE::isPrime(number);
+	return number;
+}
+
+long long int public_key(
+	long long int base_g,
+	long long int alex,
+	long long int modulus) {
+	
+}
+
+long long int shared_secret(
+	long long int public_key,
+	long long int bobbi,
+	long long int modulus) {
+
+}
+
+long long int base_generation() {
+	long long int number = DHKE::generate();
 	return number;
 }
