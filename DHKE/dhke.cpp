@@ -40,7 +40,6 @@ bool DHKE::isPrime(long long int num) {
 
 long long int DHKE::generate() {
 	long long int number = randombytes_random();
-	number = isPrime(number);
 	int randombytes_close(void);
 	return number;
 }
@@ -50,43 +49,76 @@ long long int DHKE::public_key(
 	long long int alex,
 	long long int modulus) {
 
-	return 0;
+	long long int public_key = std::pow(base_g, alex);
+	public_key = public_key % modulus;
+	public_key = std::abs(public_key);
+	return public_key;
 }
 
 long long int DHKE::shared_secret(
 	long long int public_key,
 	long long int bailey,
 	long long int modulus) {
-	return 0;
+
+	long long int shared_secret = std::pow(public_key, bailey);
+	shared_secret = shared_secret % modulus;
+	shared_secret = std::abs(shared_secret);
+	return shared_secret;
 }
 
 long long int DHKE::base_gen() {
 	long long int number = DHKE::generate();
-	return number;
+	if (!(DHKE::isPrime(number))) {
+		while (!(DHKE::isPrime(number))) {
+			number = DHKE::generate();
+			DHKE::isPrime(number);
+		}
+		return number;
+	}
+	else {
+		return number;
+	}
 }
 
 long long int DHKE::modulus_gen() {
 	long long int modulus = DHKE::generate();
-	modulus = DHKE::isPrime(modulus);
-	return modulus;
+	if (!(DHKE::isPrime(modulus))) {
+		while (!(DHKE::isPrime(modulus))) {
+			modulus = DHKE::generate();
+			DHKE::isPrime(modulus);
+		}
+		return modulus;
+	}
+	else {
+		return modulus;
+	}
 }
 
 long long int DHKE::secret_gen() {
 	long long int secret = DHKE::generate();
-	secret = DHKE::isPrime(secret);
-	return secret;
+	if (!(DHKE::isPrime(secret))) {
+		while (!(DHKE::isPrime(secret))) {
+			secret = DHKE::generate();
+			DHKE::isPrime(secret);
+		}
+		return secret;
+	}
+	else {
+		return secret;
+	}
 }
 
 long long int DHKE::get_input() {
-	std::cout << "Please enter an integer\n";
+	std::cout << "Please enter an integer:\n";
 	long long int number;
 	std::cin >> number;
 	if (!(DHKE::isPrime(number))) {
-		std::cout << "Sorry, your input is not valid.\n";
-		std::cout << "What would you like to do?\n";
-		std::cout << "1) Generate an integer\n";
-		std::cout << "2) Try another integer\n";
-		std::cout << "3) Quit";
+		std::cout << "Sorry, your input is not valid.\n"
+			<< "What would you like to do?\n"
+			<< "1) Generate an integer\n"
+			<< "2) Try another integer\n"
+			<< "3) Quit\n"
+			<< std::endl;
 		int answer;
 		std::cin >> answer;
 		if (answer == 1) {
@@ -97,7 +129,7 @@ long long int DHKE::get_input() {
 			return number;
 		}
 		else if (answer == 2) {
-			number = DHKE::get_input();
+			std::cin >> number;
 			return number;
 		}
 		else if (answer == 3) {
